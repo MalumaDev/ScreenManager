@@ -1,0 +1,138 @@
+{
+	"name": "screenmanager",
+	"displayName": "Screen Manager",
+	"description": "Manager for screen command",
+	"version": "0.0.1",
+	"publisher": "MalumaDev",
+	"repository": "https://github.com/MalumaDev/ScreenManager",
+	"private": false,
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:json",
+		"onLanguage:jsonc"
+	],
+	"main": "./out/extension.js",
+	"icon": "resources/icon.png",
+	"contributes": {
+		"views": {
+			"explorer": [
+				{
+					"id": "screenTreeView",
+					"name": "Screen Manager"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "extension.openScreenSession",
+				"title": "Open Screen Session"
+			},
+			{
+				"command": "extension.killScreenSession",
+				"title": "Kill Screen Session"
+			},
+			{
+				"command": "extension.renameScreenSession",
+				"title": "Rename Screen Session"
+			},
+			{
+				"command": "screenTreeView.refresh",
+				"title": "Refresh",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "screenTreeView.removeAllScreens",
+				"title": "Remove All Screens",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "screenTreeView.createNewScreen",
+				"title": "Create New Screen Session",
+				"icon": "$(add)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "screenTreeView.refresh",
+					"when": "view == screenTreeView",
+					"group": "navigation"
+				},
+				{
+					"command": "screenTreeView.removeAllScreens",
+					"when": "view == screenTreeView",
+					"group": "navigation"
+				},
+				{
+					"command": "screenTreeView.createNewScreen",
+					"when": "view == screenTreeView",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "extension.openScreenSession",
+					"when": "view == screenTreeView && item.id != 'screen_no_support'",
+					"group": "navigation"
+				},
+				{
+					"command": "extension.killScreenSession",
+					"when": "view == screenTreeView && item.id != 'screen_no_support'",
+					"group": "navigation"
+				},
+				{
+					"command": "extension.renameScreenSession",
+					"when": "view == screenTreeView",
+					"group": "navigation"
+				}
+			]
+		},
+		"configuration": [
+			{
+				"title": "JSON Outline",
+				"properties": {
+					"jsonOutline.autorefresh": {
+						"type": "boolean",
+						"description": "Auto refresh the JSON outline view when the contents of the json file change.",
+						"default": false
+					}
+				}
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"lint": "eslint \"src/**/*.ts\""
+	},
+	"devDependencies": {
+		"@types/mkdirp": "^0.5.2",
+		"@types/node": "^20",
+		"@types/rimraf": "^2.0.2",
+		"@types/vscode": "^1.73.0",
+		"@typescript-eslint/eslint-plugin": "^7.14.0",
+		"@typescript-eslint/parser": "^7.14.0",
+		"eslint": "^8.26.0",
+		"typescript": "^5.6.2"
+	},
+	"dependencies": {
+		"jsonc-parser": "^0.4.2",
+		"minimist": "^1.2.6",
+		"mkdirp": "^0.5.1",
+		"rimraf": "^2.6.2"
+	},
+	"views": {
+		"explorer": {
+			"screenTreeView": {
+				"name": "Screen Sessions"
+			}
+		}
+	}
+}
